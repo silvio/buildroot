@@ -31,11 +31,10 @@ FFTW_CFLAGS += $(if $(BR2_PACKAGE_FFTW_USE_NEON),-mfpu=neon)
 
 # Generic optimisations
 ifeq ($(BR2_TOOLCHAIN_HAS_THREADS),y)
-FFTW_CONF_OPTS += --enable-threads --with-combined-threads
+FFTW_CONF_OPTS += --enable-threads $(if $(BR2_GCC_ENABLE_OPENMP),--enable-openmp,--disable-openmp --with-combined-threads)
 else
 FFTW_CONF_OPTS += --disable-threads
 endif
-FFTW_CONF_OPTS += $(if $(BR2_GCC_ENABLE_OPENMP),--enable,--disable)-openmp
 
 FFTW_CONF_OPTS += CFLAGS="$(FFTW_CFLAGS)"
 
